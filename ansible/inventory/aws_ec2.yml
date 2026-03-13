@@ -1,0 +1,17 @@
+plugin: amazon.aws.aws_ec2
+regions:
+  - us-west-2
+
+keyed_groups:
+  - prefix: server_role
+    key: tags.Role
+  - prefix: project
+    key: tags.Project
+
+hostnames:
+  - tag:Name
+  - dns-name
+
+compose:
+  ansible_host: public_ip_address
+  ansible_user: "'rocky' if tags.Role == 'redis-server' else 'admin'"
